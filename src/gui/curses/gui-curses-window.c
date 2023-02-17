@@ -2585,17 +2585,6 @@ gui_window_set_title (const char *title)
     {
         printf ("\033&f0k%dD%s", (int)(strlen (new_title) + 1), new_title);
     }
-    /* the following terminals support the xterm escape codes */
-    else if ((strncmp (envterm, "xterm", 5) == 0)
-             || (strncmp (envterm, "rxvt", 4) == 0)
-             || (strncmp (envterm, "alacritty", 9) == 0)
-             || (strcmp (envterm, "Eterm") == 0)
-             || (strcmp (envterm, "aixterm") == 0)
-             || (strcmp (envterm, "iris-ansi") == 0)
-             || (strcmp (envterm, "dtterm") == 0))
-    {
-        printf ("\33]0;%s\7", new_title);
-    }
     else if ((strncmp (envterm, "screen", 6) == 0)
              || (strncmp (envterm, "tmux", 4) == 0))
     {
@@ -2626,6 +2615,10 @@ gui_window_set_title (const char *title)
             }
         }
         /* trying to set the title of a backgrounded xterm like terminal */
+        printf ("\33]0;%s\7", new_title);
+    }
+    /* the following terminals support the xterm escape codes */
+    else {
         printf ("\33]0;%s\7", new_title);
     }
     fflush (stdout);
